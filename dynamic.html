@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .input-container {
+            display: flex;
+            gap: 10px; /* Spazio tra gli input */
+            align-items: center; /* Allinea verticalmente gli elementi */
+        }
+
+        /* Stile per il bottone "Browse" */
+        .custom-file-upload {
+            display: inline-block;
+            padding: 10px 20px;
+            color: white;
+            background-color: #f00606;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center;
+        }
+        #file-upload {
+            display: none;
+        }
+
+        .checkbox-container {
+            margin: 20px;
+        }
+        .checkbox-container label {
+            margin-left: 10px;
+            font-size: 18px;
+        }
+
+    </style>
+</head>
+<body>
+    <h1 id="datetime"></h1> <!-- ID assegnato correttamente -->
+
+    <div class="input-container">
+            <label for="name">Il tuo nome:</label><br>
+            <input type="text" id="name" class="inline-input" placeholder="Esempio: Raffaele"><br>
+
+            <label for="surname">Il tuo cognome:</label><br>
+            <input type="text" id="surname" class="inline-input" placeholder="Esempio: Colliva">
+
+            <p>Scegli un file: </p>
+            <label class="custom-file-upload">
+                <input type="file" id="file-upload">
+                BROWSE...
+            </label>
+            <p id="file-name"></p>
+        </div>
+
+        Scegli il GOAT:
+        <div class="checkbox-container">
+
+            <input type="checkbox" id="opzione1" name="opzione1">
+            <label for="opzione1">Cristiano Ronaldo</label><br>
+    
+            <input type="checkbox" id="opzione2" name="opzione2">
+            <label for="opzione2">Lionel Messi</label><br>
+    
+            <input type="checkbox" id="opzione3" name="opzione3">
+            <label for="opzione3">Ronaldo El Fenomeno</label><br>
+    
+            <input type="checkbox" id="opzione4" name="opzione4">
+            <label for="opzione4">Maradona</label><br>
+    
+            <input type="checkbox" id="opzione5" name="opzione5">
+            <label for="opzione5">Pelè</label><br>
+        </div>
+        
+        <button onclick="mostraScelte()">Mostra le scelte selezionate</button>
+
+    <p id="scelte"></p>
+
+
+    <script>
+        function aggiornaDataOra() {
+            // Crea l'oggetto Date
+            const oggi = new Date();
+
+            // Estrae e formatta data e ora
+            const giorno = String(oggi.getDate()).padStart(2, '0');
+            const mese = String(oggi.getMonth() + 1).padStart(2, '0');
+            const anno = oggi.getFullYear();
+            const ore = String(oggi.getHours()).padStart(2, '0');
+            const minuti = String(oggi.getMinutes()).padStart(2, '0'); // Corretto qui
+            const sec = String(oggi.getSeconds()).padStart(2, '0');
+
+            // Crea la stringa da visualizzare
+            const dataFormatt = ` Oggi è il giorno: ${giorno}/${mese}/${anno} e sono le ore: ${ore}:${minuti}:${sec}`;
+
+            // Mostra la data e l'ora nel div con id "datetime"
+            document.getElementById("datetime").textContent = dataFormatt;
+        }
+
+        // Avvia l'aggiornamento ogni secondo
+        setInterval(aggiornaDataOra, 1000);
+
+        // Chiamata iniziale
+        aggiornaDataOra();
+
+        /////cerca file
+         // Aggiunge un listener per mostrare il nome del file selezionato
+         const fileUpload = document.getElementById('file-upload');
+        const fileNameDisplay = document.getElementById('file-name');
+
+        fileUpload.addEventListener('change', function() {
+            if (fileUpload.files.length > 0) {
+                fileNameDisplay.textContent = `File selezionato: ${fileUpload.files[0].name}`;
+            } else {
+                fileNameDisplay.textContent = ''; // Se non è selezionato nessun file
+            }
+        });
+
+
+        function mostraScelte() {
+            let scelte = [];
+            
+            // Controlla quali checkbox sono selezionate
+            for (let i = 1; i <= 5; i++) {
+                let opzione = document.getElementById("opzione" + i);
+                if (opzione.checked) {
+                    scelte.push(opzione.nextElementSibling.innerText); // Aggiungi l'etichetta (testo della label)
+                }
+            }
+
+            // Mostra le scelte selezionate
+            if (scelte.length > 0) {
+                document.getElementById("scelte").textContent = "Hai selezionato: " + scelte.join(", ");
+            } else {
+                document.getElementById("scelte").textContent = "Nessuna opzione selezionata.";
+            }
+        }
+
+
+
+
+
+    </script>
+</body>
+</html>
